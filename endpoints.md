@@ -1,3 +1,4 @@
+<!-- endpoints -->
 <!-- Authentication -->
 /auth
     /login
