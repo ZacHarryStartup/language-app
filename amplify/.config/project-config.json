@@ -1,0 +1,17 @@
+{
+  "projectName": "LangApp",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react-native",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "build",
+      "BuildCommand": "build",
+      "StartCommand": "start"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
