@@ -15,9 +15,11 @@ jobs:
     steps:
       - name: checkout_repo
         uses: actions/checkout@v3
-      - name: "Updated function on push"
+      - name: "Zip function"
         run: |
-          zip code.zip lambda-functions/${{ env.functionName }}.py \
+          zip code.zip lambda-functions/${{ env.functionName }}.py 
+      - name: "Updated lambda"
+        run: |
           aws lambda update-function-code \                                                 
           --function-name ${{ env.functionName }} \              
           --zip-file code.zip
