@@ -18,7 +18,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{{{ secrets.AWS_SECRET_ACCESS_KEY }}}}
   AWS_REGION: ap-southeast-2
 jobs:
-  update-${{{{ env.functionName }}}}:
+  updateFunction:
     runs-on: ubuntu-latest
     environment: language-app
     steps:
