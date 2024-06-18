@@ -19,7 +19,4 @@ jobs:
         run: |
           zip code.zip lambda-functions/${{ env.functionName }}.py 
       - name: "Updated lambda"
-        run: |
-          aws lambda update-function-code \                                                 
-            --function-name ${{ env.functionName }} \              
-            --zip-file code.zip
+        run: aws lambda update-function-code --function-name ${{ env.functionName }} --zip-file code.zip
