@@ -31,6 +31,13 @@ jobs:
       - name: Creating Python File
         run: |
           python3 ./lambda-functions/createLambda.py -f ${{ inputs.functionName }}
+      - name: Commit Files
+        git add .
+        git commit -m "Automatic commit from createLambda workflow"
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
