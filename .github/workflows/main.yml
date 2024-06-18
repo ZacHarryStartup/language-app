@@ -1,5 +1,6 @@
 name: Lambda update workflow for LambdaFunctionOverHttps
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,7 +15,7 @@ jobs:
     steps:
       - name: "Updated function on push"
         run: |
-          echo "ls"
+          ls ${{ github.workspace }}
         
         
         
