@@ -6,7 +6,7 @@ on:
     paths:
       -  lambda-functions/LambdaFunctionOverHttps.py
 env:
-  functionName: LambdaFunctionsOverHttps.py
+  functionName: LambdaFunctionsOverHttps
   
 jobs:
   updateLambda:
