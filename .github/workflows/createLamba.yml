@@ -16,6 +16,7 @@ jobs:
   updateLambda:
     permissions:
       contents: write
+      pages: write
     runs-on: ubuntu-latest
     environment: language-app
     steps:
