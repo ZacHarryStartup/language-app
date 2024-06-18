@@ -41,8 +41,10 @@ jobs:
           git config --global user.name "Harry Kim"
           git add .
           git commit -m "Automatic commit from createLambda workflow"
-      - name: Push Python Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+          git push
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Creating Workflow File
         run: |
           python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.functionName }}
@@ -52,9 +54,10 @@ jobs:
           git config --global user.name "Harry Kim"
           git add .
           git commit -m "Automatic commit from createLambda workflow"
-      - name: Push Workflow Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-
+          git push
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
