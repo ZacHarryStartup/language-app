@@ -10,5 +10,6 @@ dynamo = boto3.resource('dynamodb').Table(tableName)
 print('Loading function')
 
 def lambda_handler(event, context):
+    print("Done")
     return
     
