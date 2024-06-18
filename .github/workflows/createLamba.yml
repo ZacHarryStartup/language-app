@@ -30,7 +30,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Creating Python File
         run: |
-          python3 ./lambda-functions/createLambda.py ${{ inputs.functionName }}
+          python3 ./lambda-functions/createLambda.py -f ${{ inputs.functionName }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
