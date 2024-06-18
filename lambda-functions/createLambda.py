@@ -2,7 +2,7 @@ import argparse
 import os
 
 def main(functionName):
-    f = open('/lambda-functions/' + functionName + '.py', "w")
+    f = open('lambda-functions/' + functionName + '.py', "w")
     fileContent = """import boto3
 import json
 
@@ -18,7 +18,7 @@ def lambda_handler(event, context):
 return
     """
     f.write(fileContent)
-    test = open('/lambda-functions/' + functionName + '.py', "r")
+    test = open('lambda-functions/' + functionName + '.py', "r")
     print(test.read())
 
 def parseArgs():
