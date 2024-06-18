@@ -48,12 +48,12 @@ jobs:
           git push
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GIT_TOKEN }}
       - name: Creating Workflow File
         run: |
           python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.functionName }}
       - name: Commit Workflow Files
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
           git config --global user.name "Harry Kim"
