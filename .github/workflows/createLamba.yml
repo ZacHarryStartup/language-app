@@ -58,7 +58,7 @@ jobs:
           git push
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.WORKFLOW_TOKEN }}
+          token: ${{ secrets.GIT_TOKEN }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
