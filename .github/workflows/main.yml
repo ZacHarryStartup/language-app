@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: "Updated function on push"
         run: |
-          zip code.zip lambda-functions/${{ env.functionName }}.py
-          aws lambda update-function-code \                                                 
-          --function-name ${{ env.functionName }} \              
-          --zip-file code.zip
-  
+          # zip code.zip lambda-functions/${{ env.functionName }}.py
+          # aws lambda update-function-code \                                                 
+          # --function-name ${{ env.functionName }} \              
+          # --zip-file code.zip
+          ls
