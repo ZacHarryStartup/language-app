@@ -13,10 +13,11 @@ jobs:
   updateLambda:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout_repo
+        uses: actions/checkout@v3
       - name: "Updated function on push"
         run: |
-          ./lambda-functions/${{ env.functionName }}.py
-        # zip code.zip ./lambda-functions/${{ env.functionName }}.py
-        # aws lambda update-function-code \                                                 
-        # --function-name ${{ env.functionName }} \              
-        # --zip-file code.zip
+        zip code.zip ./lambda-functions/${{ env.functionName }}.py
+        aws lambda update-function-code \                                                 
+        --function-name ${{ env.functionName }} \              
+        --zip-file code.zip
