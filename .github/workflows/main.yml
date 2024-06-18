@@ -12,6 +12,7 @@ env:
 jobs:
   updateLambda:
     runs-on: ubuntu-latest
+    environment: language-app
     steps:
       - name: checkout_repo
         uses: actions/checkout@v3
