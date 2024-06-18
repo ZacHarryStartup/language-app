@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: checkout_repo
         uses: actions/checkout@v3
+      - name: test secrets
+        run: |
+        echo ${{ secrets.AWS_ACCESS_KEY_ID }}
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
