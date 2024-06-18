@@ -41,8 +41,8 @@ jobs:
           git commit -m "Automatic commit from createLambda workflow"
       - name: Push Changes
         uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.WORKFLOW_TOKEN }}
+        # with:
+        #   github_token: ${{ secrets.WORKFLOW_TOKEN }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
