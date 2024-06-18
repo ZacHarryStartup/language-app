@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     response = dynamo.get_item(Item=loginDetails)
 
     print(response)
-    print("Picklesssssssss")
+    print("Picklessssssssssss")
 
 
 
