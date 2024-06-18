@@ -1,4 +1,4 @@
-name: Lambda update workflow for TestFunction
+name: Updating TestFunction
 on:
   workflow_dispatch:
   push:

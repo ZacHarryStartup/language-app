@@ -4,7 +4,7 @@ import os
 def main(functionName):
     print('Printed')
     ymlFile = open('.github/workflows/' + functionName + '.yml', "w")
-    ymlContent = """name: Lambda update workflow for {lambdaFunction}
+    ymlContent = """name: Update {lambdaFunction}
 on:
   workflow_dispatch:
   push:
@@ -18,7 +18,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{{{ secrets.AWS_SECRET_ACCESS_KEY }}}}
   AWS_REGION: ap-southeast-2
 jobs:
-  updateLambda:
+  update-${{{{ env.functionName }}}}:
     runs-on: ubuntu-latest
     environment: language-app
     steps:
@@ -36,7 +36,7 @@ jobs:
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{{{ env.functionName }}}}.py 
-      - name: "Updated lambda"
+      - name: "Updated ${{{{ env.functionName }}}}"
         run: aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip
 """.format(lambdaFunction=functionName)
     ymlFile.write(ymlContent)

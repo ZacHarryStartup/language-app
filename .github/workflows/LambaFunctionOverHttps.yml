@@ -1,4 +1,4 @@
-name: Lambda update workflow for LambdaFunctionOverHttps
+name: Updating LambdaFunctionOverHttps
 on:
   workflow_dispatch:
   push:
