@@ -19,7 +19,7 @@ return
     """
     f.write(fileContent)
 
-    
+
 def parseArgs():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -31,4 +31,4 @@ def parseArgs():
 
 
 if __name__ == "__main__":
-    main(parseArgs())
+    main(parseArgs().functionName)
