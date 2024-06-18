@@ -18,6 +18,7 @@ jobs:
   updateLambda:
     permissions:
       contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     environment: language-app
     steps:
