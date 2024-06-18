@@ -33,16 +33,29 @@ jobs:
       - name: Creating Python File
         run: |
           python3 ./lambda-functions/createLambda.py -f ${{ inputs.functionName }}
-      - name: Commit Files
+      - name: Commit Python Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
           git config --global user.name "Harry Kim"
           git add .
           git commit -m "Automatic commit from createLambda workflow"
-      - name: Push Changes
+      - name: Push Python Changes
         uses: ad-m/github-push-action@master
-        # with:
-        #   github_token: ${{ secrets.WORKFLOW_TOKEN }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Creating Workflow File
+        run: |
+          python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.functionName }}
+      - name: Commit Workflow Files
+        run: |
+          git config --global user.email "harrison.falconer2@gmail.com"
+          git config --global user.name "Harry Kim"
+          git add .
+          git commit -m "Automatic commit from createLambda workflow"
+      - name: Push Workflow Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.WORKFLOW_TOKEN }} 
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
