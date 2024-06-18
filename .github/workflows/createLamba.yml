@@ -6,7 +6,7 @@ on:
         type: string
         description: "Name of Lambda Function"
         required: true
-        default: "Enter Funcion Name"
+        default: "Enter Function Name"
 env:
   functionName: LambdaFunctionOverHttps
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
