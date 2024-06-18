@@ -2,6 +2,7 @@ import argparse
 import os
 
 def main(functionName):
+    print('Printed')
     ymlFile = open('.github/workflows/' + functionName + '.yml', "w")
     ymlContent = """name: Lambda update workflow for {lambdaFunction}
 on:
