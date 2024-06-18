@@ -1,0 +1,21 @@
+name: Lambda update workflow for LambdaFunctionOverHttps
+on:
+  push:
+    branches:
+      - main
+    paths:
+      -  lambda-functions/LambdaFunctionOverHttps.py
+env:
+  functionName: LambdaFunctionsOverHttps.py
+  
+jobs:
+  updateLambda:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Updated function on push"
+        run: |
+          zip code.zip lambda-functions/${{ env.functionName }}.py
+          aws lambda update-function-code \                                                 
+          --function-name ${{ env.functionName }} \              
+          --zip-file code.zip
+  
