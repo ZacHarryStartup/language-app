@@ -15,13 +15,15 @@ jobs:
     steps:
       - name: checkout_repo
         uses: actions/checkout@v3
-      - name: "Zip function"
-        run: |
-          zip code.zip lambda-functions/${{ env.functionName }}.py 
-      - name: "Updated lambda"
-        env:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-southeast-2
           AWS_DEFAULT_OUTPUT: json
+      - name: "Zip function"
+        run: |
+          zip code.zip lambda-functions/${{ env.functionName }}.py 
+      - name: "Updated lambda"
         run: aws lambda update-function-code --function-name ${{ env.functionName }} --zip-file fileb://code.zip
