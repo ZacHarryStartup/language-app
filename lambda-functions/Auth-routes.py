@@ -10,5 +10,6 @@ dynamo = boto3.resource('dynamodb').Table(tableName)
 print('Loading function')
 
 def lambda_handler(event, context):
+    # TODO: Add auth route handling
     return
     
