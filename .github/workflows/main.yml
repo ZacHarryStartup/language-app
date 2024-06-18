@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      -  ./lambda-functions/LambdaFunctionOverHttps.py
+      -  lambda-functions/LambdaFunctionOverHttps.py
 env:
   functionName: LambdaFunctionOverHttps
   
@@ -15,14 +15,7 @@ jobs:
     steps:
       - name: "Updated function on push"
         run: |
-          ls ${{ github.workspace }}
-        
-        
-        
-        
-        # |
-          # zip code.zip lambda-functions/${{ env.functionName }}.py
-          # aws lambda update-function-code \                                                 
-          # --function-name ${{ env.functionName }} \              
-          # --zip-file code.zip
-          # ls
+          zip code.zip ./lambda-functions/${{ env.functionName }}.py
+          aws lambda update-function-code \                                                 
+          --function-name ${{ env.functionName }} \              
+          --zip-file code.zip
