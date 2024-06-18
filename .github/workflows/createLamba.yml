@@ -42,7 +42,7 @@ jobs:
           git add .
           git commit -m "Automatic commit from createLambda workflow"
           git push
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Creating Workflow File
@@ -55,7 +55,7 @@ jobs:
           git add .
           git commit -m "Automatic commit from createLambda workflow"
           git push
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
       - name: "Zip function"
