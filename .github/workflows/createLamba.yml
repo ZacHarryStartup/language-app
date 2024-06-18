@@ -16,7 +16,7 @@ jobs:
   updateLambda:
     permissions:
       contents: write
-      pages: write
+      actions: write
     runs-on: ubuntu-latest
     environment: language-app
     steps:
@@ -43,7 +43,7 @@ jobs:
       - name: Push Changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GIT_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: "Zip function"
         run: |
           zip code.zip lambda-functions/${{ inputs.functionName }}.py 
