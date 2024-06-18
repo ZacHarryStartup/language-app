@@ -1,8 +1,9 @@
 import argparse
-
+import os
 
 def main(functionName):
     f = open(functionName + '.py', "w")
+    print(os.environ.get("GITHUB_WORKSPACE"))
     fileContent = """import boto3
 import json
 
