@@ -56,6 +56,7 @@ jobs:
       - name: "Updated lambda"
         run: aws lambda update-function-code --function-name ${{ env.functionName }} --zip-file fileb://code.zip
 """.format(lambdaFunction=functionName)
+    ymlFile.write(ymlContent)
 
 
 def parseArgs():
