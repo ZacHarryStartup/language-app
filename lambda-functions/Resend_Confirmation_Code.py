@@ -1,14 +1,21 @@
+from flask import Flask, request, jsonify
 import boto3
-import json
+from botocore.exceptions import BotoCoreError, ClientError
 
-# define the DynamoDB table that Lambda will connect to
-tableName = "lambda-apigateway"
+# Initialize Cognito client
+cognito_client = boto3.client('cognito-idp', region_name='your-region')  # Replace 'your-region' with your AWS region
+user_pool_id = 'your-user-pool-id'  # Replace with your Cognito User Pool ID
+client_id = 'your-client-id'  # Replace with your Cognito App Client ID
 
-# create the DynamoDB resource
-dynamo = boto3.resource('dynamodb').Table(tableName)
-
-print('Loading function')
-
-def lambda_handler(event, context):
-    return
+#@app.route('/resend-confirmation-code', methods=['POST'])
+def resend_confirmation_code():
+    try:
+        data = request.json
+        response = cognito_client.resend_confirmation_code(
+            ClientId=client_id,
+            Username=data['username']
+        )
+        return jsonify(response), 200
+    except ClientError as e:
+        return jsonify(error=str(e)), 400
     
