@@ -7,8 +7,12 @@ on:
         description: "Name of Lambda Function"
         required: true
         default: "Enter Function Name"
+      folderName:
+        type: string
+        description: "Name of Parent Folder for Function"
+        required: true
+        default: "Enter Folder Name"
 env:
-  functionName: LambdaFunctionOverHttps
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ap-southeast-2
@@ -38,7 +42,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Creating Python File
         run: |
-          python3 ./lambda-functions/createLambda.py -f ${{ inputs.functionName }}
+          python3 ./lambda-functions/createLambda.py -f ${{ inputs.folderName }}/${{ inputs.functionName }}
       - name: Commit Python Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
@@ -62,6 +66,7 @@ jobs:
           git push
       - name: "Zip function"
         run: |
-          zip code.zip lambda-functions/${{ inputs.functionName }}.py 
+          cd lambda-functions \
+          zip code.zip ${{ inputs.functionName }}.py 
       - name: "Creating Lambda Function"
         run: aws lambda create-function --function-name ${{ inputs.functionName }} --zip-file fileb://code.zip --handler ${{ inputs.functionName }}.lambda_handler --runtime python3.12 --role arn:aws:iam::767398145545:role/lambda-apigateway-role
