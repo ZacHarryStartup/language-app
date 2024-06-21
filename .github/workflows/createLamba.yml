@@ -42,7 +42,10 @@ jobs:
           aws-region: ap-southeast-2
       - name: Creating Python File
         run: |
-          python3 ./lambda-functions/createLambda.py -f ${{ inputs.folderName }} -f ${{ inputs.functionName }}
+          python3 ./lambda-functions/createLambda.py \
+          --folderName "${{ inputs.folderName }}" \
+          --functionName "${{ inputs.functionName }}"
+          
       - name: Commit Python Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
