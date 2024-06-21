@@ -24,12 +24,10 @@ def lambda_handler(event, context):
 def parseArgs():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-f",
         "--functionName",
         required=True
     )
     parser.add_argument(
-        "-f",
         "--folderName",
         required=True
     )

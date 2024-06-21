@@ -45,7 +45,7 @@ jobs:
           python3 ./lambda-functions/createLambda.py \
           --folderName "${{ inputs.folderName }}" \
           --functionName "${{ inputs.functionName }}"
-          
+
       - name: Commit Python Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
@@ -58,7 +58,10 @@ jobs:
           token: ${{ secrets.GIT_TOKEN }}
       - name: Creating Workflow File
         run: |
-          python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.folderName }} ${{ inputs.functionName }}
+          python3 ./lambda-functions/createWorkflow.py \
+          --folderName "${{ inputs.folderName }}" \
+          --functionName "${{ inputs.functionName }}"
+          
       - name: Commit Workflow Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
