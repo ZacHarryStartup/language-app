@@ -36,11 +36,11 @@ jobs:
           aws-region: ap-southeast-2
       - name: "Zip function"
         run: |
-          cd "/lambda-functions/{directory}" 
+          cd "lambda-functions" 
           zip code.zip ${{{{ env.functionName }}}}.py 
       - name: "Updated ${{{{ env.functionName }}}}"
         run: |
-          cd "/lambda-functions/{directory}" 
+          cd "lambda-functions" 
           aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip
 """.format(directory=folderName, lambdaFunction=functionName)
     ymlFile.write(ymlContent)
