@@ -15,6 +15,7 @@ on:
       -  lambda-functions/{directory}/{lambdaFunction}.py
 env:
   functionName: {lambdaFunction}
+  folderName: {directory}
   AWS_ACCESS_KEY_ID: ${{{{ secrets.AWS_ACCESS_KEY_ID }}}}
   AWS_SECRET_ACCESS_KEY: ${{{{ secrets.AWS_SECRET_ACCESS_KEY }}}}
   AWS_REGION: ap-southeast-2
@@ -40,7 +41,7 @@ jobs:
           zip code.zip ${{{{ env.functionName }}}}.py 
       - name: "Updated ${{{{ env.functionName }}}}"
         run: |
-          cd "lambda-functions" 
+          cd "lambda-functions/${{{{ env.folderName }}}}" 
           aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip
 """.format(directory=folderName, lambdaFunction=functionName)
     ymlFile.write(ymlContent)
