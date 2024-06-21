@@ -42,7 +42,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Creating Python File
         run: |
-          python3 ./lambda-functions/createLambda.py -f ${{ inputs.folderName }}/${{ inputs.functionName }}
+          python3 ./lambda-functions/createLambda.py -f ${{ inputs.folderName }} ${{ inputs.functionName }}
       - name: Commit Python Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
@@ -55,7 +55,7 @@ jobs:
           token: ${{ secrets.GIT_TOKEN }}
       - name: Creating Workflow File
         run: |
-          python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.functionName }}
+          python3 ./lambda-functions/createWorkflow.py -f ${{ inputs.folderName }} ${{ inputs.functionName }}
       - name: Commit Workflow Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"

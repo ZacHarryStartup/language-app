@@ -1,8 +1,10 @@
 import argparse
 import os
 
-def main(functionName):
-    pythonFile = open('lambda-functions/' + functionName + '.py', "w")
+def main(folderName, functionName):
+    if not os.path.exists('lambda-functions/' + folderName):
+        os.makedirs('lambda-functions/' + folderName)
+    pythonFile = open('lambda-functions/' + folderName + functionName + '.py', "w")
     pythonContent = """import boto3
 import json
 
@@ -26,8 +28,13 @@ def parseArgs():
         "--functionName",
         required=True
     )
+    parser.add_argument(
+        "-f",
+        "--folderName",
+        required=True
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
-    main(parseArgs().functionName)
+    main(parseArgs().folderName, parseArgs().functionName)
