@@ -1,16 +1,17 @@
-from flask import Flask, request, jsonify
+import json
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
 # Initialize Cognito client
-cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')  # Replace 'your-region' with your AWS region
-user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'  # Replace with your Cognito User Pool ID
-client_id = '5uer2o6e6atje9f29se6q4t029'  # Replace with your Cognito App Client ID
+cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')
+user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'
+client_id = '5uer2o6e6atje9f29se6q4t029'
 
-#@app.route('/register', methods=['POST'])
-def sign_up():
+def sign_up(event, context):
     try:
-        data = request.json
+        # Lambda event payload is JSON string
+        data = json.loads(event['body'])
+        
         response = cognito_client.sign_up(
             ClientId=client_id,
             Username=data['username'],
@@ -19,6 +20,12 @@ def sign_up():
                 {'Name': 'email', 'Value': data['email']},
             ]
         )
-        return jsonify(response), 200
+        return {
+            'statusCode': 200,
+            'body': json.dumps(response)
+        }
     except ClientError as e:
-        return jsonify(error=str(e)), 400
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': str(e)})
+        }
