@@ -35,4 +35,4 @@ jobs:
       - name: "Updated ${{ env.functionName }}"
         run: |
           cd "lambda-functions/${{ env.folderName }}" 
-          aws lambda update-function-code --function-name ${{ env.functionName }} --zip-file fileb://code.zip
+          aws lambda update-function-code --function-name ${{ env.folderName }}_${{ env.functionName }} --zip-file fileb://code.zip
