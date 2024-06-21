@@ -61,7 +61,7 @@ jobs:
           python3 ./lambda-functions/createWorkflow.py \
           --folderName "${{ inputs.folderName }}" \
           --functionName "${{ inputs.functionName }}"
-          
+
       - name: Commit Workflow Files
         run: |
           git config --global user.email "harrison.falconer2@gmail.com"
@@ -72,7 +72,7 @@ jobs:
           git push
       - name: "Zip function"
         run: |
-          cd lambda-functions \
+          cd /lambda-functions \
           zip code.zip ${{ inputs.functionName }}.py 
       - name: "Creating Lambda Function"
         run: aws lambda create-function --function-name ${{ inputs.functionName }} --zip-file fileb://code.zip --handler ${{ inputs.functionName }}.lambda_handler --runtime python3.12 --role arn:aws:iam::767398145545:role/lambda-apigateway-role
