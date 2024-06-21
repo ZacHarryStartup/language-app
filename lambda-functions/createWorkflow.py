@@ -4,7 +4,7 @@ import os
 def main(folderName, functionName):
     if not os.path.exists('.github/workflows/' + folderName):
       os.makedirs('.github/workflows/' + folderName)
-    ymlFile = open('.github/workflows/' + folderName + functionName + '.yml', "w")
+    ymlFile = open('.github/workflows/' + folderName + '/' + functionName + '.yml', "w")
     ymlContent = """name: Update {lambdaFunction}
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: "Zip function"
         run: |
-          cd lambda-functions/{directory} \\
+          cd /lambda-functions/{directory} \\
           zip code.zip ${{{{ env.functionName }}}}.py 
       - name: "Updated ${{{{ env.functionName }}}}"
         run: aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip

@@ -4,7 +4,7 @@ import os
 def main(folderName, functionName):
     if not os.path.exists('lambda-functions/' + folderName):
         os.makedirs('lambda-functions/' + folderName)
-    pythonFile = open('lambda-functions/' + folderName + functionName + '.py', "w")
+    pythonFile = open('lambda-functions/' + folderName + '/' + functionName + '.py', "w")
     pythonContent = """import boto3
 import json
 
