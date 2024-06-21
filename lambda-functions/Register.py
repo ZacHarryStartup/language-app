@@ -7,7 +7,7 @@ cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')
 user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'
 client_id = '5uer2o6e6atje9f29se6q4t029'
 
-def sign_up(event, context):
+def register(event, context):
     try:
         # Lambda event payload is JSON string
         data = json.loads(event['body'])
