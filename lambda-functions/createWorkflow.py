@@ -2,9 +2,7 @@ import argparse
 import os
 
 def main(folderName, functionName):
-    if not os.path.exists('.github/workflows/' + folderName):
-      os.makedirs('.github/workflows/' + folderName)
-    ymlFile = open('.github/workflows/' + functionName + '.yml', "w")
+    ymlFile = open('.github/workflows/' + folderName + '_' + functionName + '.yml', "w")
     ymlContent = """name: Update {lambdaFunction}
 on:
   workflow_dispatch:
