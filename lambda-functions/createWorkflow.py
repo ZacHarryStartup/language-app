@@ -39,7 +39,9 @@ jobs:
           cd "/lambda-functions/{directory}" 
           zip code.zip ${{{{ env.functionName }}}}.py 
       - name: "Updated ${{{{ env.functionName }}}}"
-        run: aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip
+        run: |
+          cd "/lambda-functions/{directory}" 
+          aws lambda update-function-code --function-name ${{{{ env.functionName }}}} --zip-file fileb://code.zip
 """.format(directory=folderName, lambdaFunction=functionName)
     ymlFile.write(ymlContent)
 

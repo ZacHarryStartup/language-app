@@ -75,4 +75,6 @@ jobs:
           cd "lambda-functions/${{ inputs.folderName }}" 
           zip code.zip ${{ inputs.functionName }}.py 
       - name: "Creating Lambda Function"
-        run: aws lambda create-function --function-name ${{ inputs.functionName }} --zip-file fileb://code.zip --handler ${{ inputs.functionName }}.lambda_handler --runtime python3.12 --role arn:aws:iam::767398145545:role/lambda-apigateway-role
+        run: |
+          cd "lambda-functions/${{ inputs.folderName }}" 
+          aws lambda create-function --function-name ${{ inputs.functionName }} --zip-file fileb://code.zip --handler ${{ inputs.functionName }}.lambda_handler --runtime python3.12 --role arn:aws:iam::767398145545:role/lambda-apigateway-role
