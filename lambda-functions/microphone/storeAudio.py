@@ -23,6 +23,7 @@ def lambda_handler(event, context):
     message = {
         'message': transcription.text
     }
+    print(transcription.text)
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json'},
