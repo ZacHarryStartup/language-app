@@ -15,22 +15,28 @@ dynamo = boto3.resource('dynamodb').Table(tableName)
 print('Running audio function')
 
 def lambda_handler(event, context):
-    # audio_file= open("audio.m4a", "rb")
-    # transcription = client.audio.transcriptions.create(
-    # model="whisper-1", 
-    # file=audio_file,
-    # )
-    # print(event, context)
-    # message = {
-    #     'message': transcription.text
-    # }
-    message = {
-        'message': "hi"
-    }
-    # print(transcription.text)
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        'body': json.dumps(message)
-    }
+    try:
+        audio_file= open("audio.m4a", "rb")
+        transcription = client.audio.transcriptions.create(
+        model="whisper-1", 
+        file=audio_file,
+        )
+        print(event, context)
+        message = {
+            'message': transcription.text
+        }
+        message = {
+            'message': "hi"
+        }
+        # print(transcription.text)
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json'},
+            'body': json.dumps(message)
+        }
+    except ClientError as e:
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': str(e)})
+        }
     
