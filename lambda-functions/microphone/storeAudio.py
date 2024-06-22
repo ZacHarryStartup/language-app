@@ -1,6 +1,10 @@
 import boto3
 import json
 from openai import OpenAI
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 client = OpenAI(api_key="sk-proj-FeXYZfbbwupEo7KpLtNIT3BlbkFJGIfLI7JZqGGK8abz2WoP")
 
 
