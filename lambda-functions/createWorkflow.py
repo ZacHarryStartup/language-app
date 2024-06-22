@@ -35,7 +35,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: "Zip function"
         run: |
-          cd "lambda-functions" 
+          cd "lambda-functions/${{{{ env.folderName }}}}" 
           zip code.zip ${{{{ env.functionName }}}}.py 
       - name: "Updated ${{{{ env.functionName }}}}"
         run: |
