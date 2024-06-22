@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     # model="whisper-1", 
     # file=audio_file,
     # )
-    print(event, context)
+    # print(event, context)
     # message = {
     #     'message': transcription.text
     # }
