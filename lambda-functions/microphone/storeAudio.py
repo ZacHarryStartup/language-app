@@ -1,7 +1,7 @@
 import boto3
 import json
 from openai import OpenAI
-client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
+client = OpenAI(api_key="sk-proj-FeXYZfbbwupEo7KpLtNIT3BlbkFJGIfLI7JZqGGK8abz2WoP")
 
 
 
@@ -15,17 +15,6 @@ dynamo = boto3.resource('dynamodb').Table(tableName)
 print('Loading function')
 
 def lambda_handler(event, context):
-    audio_file= open("audio.m4a", "rb")
-    transcription = client.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audio_file,
-    )
-    message = {
-        'message': transcription.text
-    }
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        'body': json.dumps(message)
-    }
+    
+    return "Lets pretend this is stored"
     
