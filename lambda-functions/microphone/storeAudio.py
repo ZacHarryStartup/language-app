@@ -28,16 +28,16 @@ def lambda_handler(event, context):
         audio_file_path = '/tmp/audio.m4a'
         
         # Write the binary data directly to the .m4a file
-        with open(audio_file_path, 'wb') as audio_file:
-            audio_file.write(event['body'])
-            print(f"Audio file written to: {audio_file_path}")
+        # with open(audio_file_path, 'wb') as audio_file:
+        #     audio_file.write(event['body'])
+        #     print(f"Audio file written to: {audio_file_path}")
 
         # client = OpenAI(api_key=openai_api_key)
         # with open(audio_file_path, 'rb') as audio_file:
         #     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
 
-        with open(audio_file_path, "rb") as file:
-            print(len(file.read()))
+        # with open(audio_file_path, "rb") as file:
+        #     print(len(file.read()))
         # Return the transcript
         return {
             'statusCode': 200,
