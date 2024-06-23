@@ -17,6 +17,7 @@ def lambda_handler(event, context):
         if 'body' in event:
             # Decode the base64-encoded audio data
             audio_data = base64.b64decode(event['body'])
+            print(audio_data, event['body'])
         else:
             return {
                 'statusCode': 400,
