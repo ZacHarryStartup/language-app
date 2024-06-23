@@ -1,6 +1,7 @@
 import json
 import os
 import openai
+import base64
 
 def lambda_handler(event, context):
     try:
