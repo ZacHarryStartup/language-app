@@ -1,60 +1,45 @@
 import base64
 import json
 import os
-import boto3
-from datetime import datetime
+from openai import OpenAI
 
 def lambda_handler(event, context):
     try:
-        # Retrieve environment variables
-        s3_bucket_name = 'test-bucket-2356345345'
-        if not s3_bucket_name:
+        # Retrieve the OpenAI API key from environment variables
+        openai_api_key = os.getenv('OPENAI_API_KEY')
+        if not openai_api_key:
             return {
                 'statusCode': 500,
-                'body': json.dumps('S3 bucket name not found in environment variables')
+                'body': json.dumps('OpenAI API key not found in environment variables')
             }
 
         # Check if the request contains the base64-encoded .m4a body
         if 'body' in event:
-            base64_audio_str = event['body']
-            
             # Decode the base64-encoded .m4a data
-            try:
-                audio_data = base64.b64decode(base64_audio_str)
-                print(f"Received base64 encoded audio data of length: {len(audio_data)} bytes")
-            except base64.binascii.Error as decode_error:
-                print(f"Error decoding base64: {decode_error}")
-                return {
-                    'statusCode': 400,
-                    'body': json.dumps('Invalid base64 encoding')
-                }
+            audio_data = base64.b64decode(event['body'])
+            print(f"Received base64 encoded audio data of length: {len(audio_data)} bytes")
         else:
             return {
                 'statusCode': 400,
                 'body': json.dumps('No audio file found in request')
             }
 
-        # Define the S3 object key (name)
-        timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
-        s3_object_key = f'audio_{timestamp}.m4a'
+        # Define the path to save the .m4a audio file
+        audio_file_path = '/tmp/audio.m4a'
         
-        # Upload the binary data to S3
-        s3 = boto3.client('s3')
-        try:
-            s3.put_object(Bucket=s3_bucket_name, Key=s3_object_key, Body=audio_data, ContentType='audio/mp4')
-            print(f"Audio file uploaded to S3 bucket '{s3_bucket_name}' with key '{s3_object_key}'")
-        except Exception as e:
-            print(f"Error uploading to S3: {e}")
-            return {
-                'statusCode': 500,
-                'body': json.dumps(f'Error uploading to S3: {e}')
-            }
+        # Write the binary data directly to the .m4a file
+        with open(audio_file_path, 'wb') as audio_file:
+            audio_file.write(event['body'])
+            print(f"Audio file written to: {audio_file_path}")
 
-        # Return success response with S3 file URL
-        s3_file_url = f'https://{s3_bucket_name}.s3.amazonaws.com/{s3_object_key}'
+        client = OpenAI(api_key=openai_api_key)
+        with open(audio_file_path, 'rb') as audio_file:
+            transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+
+        # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'message': 'File uploaded successfully', 'file_url': s3_file_url})
+            'body': json.dumps({'transcript': transcript.text})
         }
 
     except Exception as e:
