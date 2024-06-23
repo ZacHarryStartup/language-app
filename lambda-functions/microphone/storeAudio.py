@@ -15,9 +15,8 @@ def lambda_handler(event, context):
 
         # Check if the request contains the body
         if 'body' in event:
-            # Decode the base64-encoded audio data
-            audio_data = base64.b64decode(event['body'])
-            print(event['body'])
+            # Handle the raw binary data directly (it's not base64 encoded)
+            audio_data = event['body'].encode('utf-8')
         else:
             return {
                 'statusCode': 400,
@@ -30,10 +29,10 @@ def lambda_handler(event, context):
             audio_file.write(audio_data)
 
         # Transcribe the audio using OpenAI Whisper
-        # openai.api_key = openai_api_key  # Use API key from environment variable
-        # with open(audio_file_path, 'rb') as audio_file:
-        #     transcript = openai.Audio.transcribe("whisper-1", audio_file)
-        transcript = {'text': "Hello"}
+        openai.api_key = openai_api_key  # Use API key from environment variable
+        with open(audio_file_path, 'rb') as audio_file:
+            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
         # Return the transcript
         return {
             'statusCode': 200,
