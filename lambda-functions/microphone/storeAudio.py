@@ -25,7 +25,7 @@ def lambda_handler(event, context):
             }
 
         # Save the audio data to a file in the /tmp directory
-        audio_file_path = '/tmp/audio.mp3'
+        audio_file_path = '/tmp/audio.mp4'
         with open(audio_file_path, 'wb') as audio_file:
             audio_file.write(audio_data)
 
