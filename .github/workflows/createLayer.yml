@@ -21,6 +21,12 @@ env:
 
 jobs:
   deploy-layer:
+    permissions:
+      deployments: write
+      contents: write
+      statuses: write
+      actions: write
+      checks: read
     runs-on: ubuntu-latest
 
     steps:
