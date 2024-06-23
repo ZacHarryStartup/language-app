@@ -24,15 +24,15 @@ def lambda_handler(event, context):
         with open(audio_file_path, 'w') as audio_file:
             audio_file.write(event['body'])
 
-        # Call OpenAI Whisper with the file-like object
-        openai.api_key = openai_api_key
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+            # Call OpenAI Whisper with the file-like object
+            openai.api_key = openai_api_key
+            transcript = openai.Audio.transcribe("whisper-1", audio_file)
 
-        # Return the transcript
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'transcript': transcript['text']})
-        }
+            # Return the transcript
+            return {
+                'statusCode': 200,
+                'body': json.dumps({'transcript': transcript['text']})
+            }
 
     except Exception as e:
         # Log the error for debugging
