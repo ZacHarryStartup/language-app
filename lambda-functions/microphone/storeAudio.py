@@ -14,9 +14,9 @@ def lambda_handler(event, context):
 
         # Check if the request contains the raw binary body
         if 'body' in event:
-            # event['body'] is a string representation of binary data
-            audio_data = event['body'].encode('latin1')  # Convert to bytes
-            print(f"Received audio data of length: {len(audio_data)} bytes")
+            # Handle the raw binary data directly (as octet-stream)
+            audio_data = base64.b64decode(event['body'])
+            print(f"Received base64 decoded audio data of length: {len(audio_data)} bytes")
         else:
             return {
                 'statusCode': 400,
