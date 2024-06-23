@@ -28,7 +28,7 @@ jobs:
       actions: write
       checks: read
     runs-on: ubuntu-latest
-
+    environment: language-app
     steps:
       - name: checkout_repo
         uses: actions/checkout@v4 
