@@ -61,4 +61,4 @@ jobs:
 
       - name: Publish Lambda layer
         run: |
-          aws lambda publish-layer-version --layer-name $${{ inputs.layerName }} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12
+          aws lambda publish-layer-version --layer-name ${{ inputs.layerName }} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12
