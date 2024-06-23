@@ -1,5 +1,5 @@
-import json
 import base64
+import json
 import os
 import openai
 
@@ -13,25 +13,23 @@ def lambda_handler(event, context):
                 'body': json.dumps('OpenAI API key not found in environment variables')
             }
 
-        # Check if the request contains the body
+        # Check if the request contains the raw binary body
         if 'body' in event:
-            # Handle the raw binary data directly (it's not base64 encoded)
-            audio_data = event['body'].encode('utf-8')
+            # Handle the raw binary data directly (as octet-stream)
+            audio_data = event['body'].encode('latin1')
+            print(f"Received audio data of length: {len(audio_data)} bytes")
         else:
             return {
                 'statusCode': 400,
                 'body': json.dumps('No audio file found in request')
             }
 
-        # Save the audio data to a file in the /tmp directory
-        audio_file_path = '/tmp/audio.m4a'
-        with open(audio_file_path, 'wb') as audio_file:
-            audio_file.write(audio_data)
+        # Base64 encode the audio data
+        base64_audio_data = base64.b64encode(audio_data).decode('utf-8')
 
-        # Transcribe the audio using OpenAI Whisper
-        openai.api_key = openai_api_key  # Use API key from environment variable
-        with open(audio_file_path, 'rb') as audio_file:
-            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+        # Call OpenAI Whisper with the base64 encoded audio data
+        openai.api_key = openai_api_key
+        transcript = openai.Audio.transcribe("whisper-1", base64_audio_data, content_type="audio/m4a")
 
         # Return the transcript
         return {
