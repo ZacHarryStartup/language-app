@@ -13,6 +13,11 @@ on:
             description: "Name of Package to be Installed"
             required: true
             default: "Enter Package Name"
+          lambdaFunctions:
+            type: string
+            description: "List of Lambda Functions to Use Layer"
+            required: true
+            default: "Enter List of Function Names E.g '[functionOne, functionTwo]'"
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -60,5 +65,19 @@ jobs:
           aws-region: ap-southeast-2
 
       - name: Publish Lambda layer
+        id: publish_layer
         run: |
-          aws lambda publish-layer-version --layer-name ${{ inputs.layerName }} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12
+          LAYER_VERSION_ARN=$(aws lambda publish-layer-version --layer-name ${{ inputs.layerName}} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12 --output text --query LayerVersionArn)
+          echo "LAYER_VERSION_ARN=${LAYER_VERSION_ARN}" >> $GITHUB_ENV
+
+      - name: Attach layer to Lambda functions
+        run: |
+          # Parse JSON array of function names
+          FUNCTION_NAMES=$(echo '${{ inputs.lambdaFunctions }}' | jq -r '.[]')
+          for function_name in $FUNCTION_NAMES; do
+            echo "Attaching layer to $function_name"
+            existing_layers=$(aws lambda get-function-configuration --function-name $function_name --query 'Layers[].Arn' --output text | tr '\n' ' ')
+            updated_layers="${existing_layers} ${{ env.LAYER_VERSION_ARN }}"
+            echo "Attaching layers to $function_name: $updated_layers"
+            aws lambda update-function-configuration --function-name $function_name --layers $updated_layers
+          done
