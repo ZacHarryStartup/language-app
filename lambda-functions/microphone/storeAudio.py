@@ -43,7 +43,7 @@ def lambda_handler(event, context):
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcription['text']})
+            'body': json.dumps({'transcript': transcription.text})
         }
 
     except Exception as e:
