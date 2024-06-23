@@ -67,7 +67,7 @@ jobs:
       - name: Publish Lambda layer
         id: publish_layer
         run: |
-          LAYER_VERSION_ARN=$(aws lambda publish-layer-version --layer-name ${{ inputs.layerName}} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12 --output text --query LayerVersionArn)
+          LAYER_VERSION_ARN=$(aws lambda publish-layer-version --layer-name ${{ inputs.layerName }} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12 --output text --query LayerVersionArn)
           echo "LAYER_VERSION_ARN=${LAYER_VERSION_ARN}" >> $GITHUB_ENV
 
       - name: Attach layer to Lambda functions
@@ -76,8 +76,6 @@ jobs:
           FUNCTION_NAMES=$(echo '${{ inputs.lambdaFunctions }}' | jq -r '.[]')
           for function_name in $FUNCTION_NAMES; do
             echo "Attaching layer to $function_name"
-            existing_layers=$(aws lambda get-function-configuration --function-name $function_name --query 'Layers[].Arn' --output text | tr '\n' ' ')
-            updated_layers="${existing_layers} ${{ env.LAYER_VERSION_ARN }}"
-            echo "Attaching layers to $function_name: $updated_layers"
-            aws lambda update-function-configuration --function-name $function_name --layers $updated_layers
+            echo "Attaching layers to $function_name: ${{ env.LAYER_VERSION_ARN }}"
+            aws lambda update-function-configuration --function-name $function_name --layers ${{ env.LAYER_VERSION_ARN }}
           done
