@@ -36,6 +36,7 @@ def lambda_handler(event, context):
         with open(audio_file_path, 'rb') as audio_file:
             transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
 
+        print(transcript.text)
         # Return the transcript
         return {
             'statusCode': 200,
