@@ -1,0 +1,58 @@
+name: Deploy Lambda Layer
+
+on:
+    workflow_dispatch:
+        inputs:
+          layerName:
+            type: string
+            description: "Name of Layer"
+            required: true
+            default: "Enter Layer Name"
+          packageName:
+            type: string
+            description: "Name of Package to be Installed"
+            required: true
+            default: "Enter Package Name"
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ap-southeast-2
+  github_token: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  deploy-layer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout_repo
+        uses: actions/checkout@v4 
+      - name: test secrets
+        run: |
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }}
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-southeast-2
+      - name: Install dependencies
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install $${{ inputs.packageName }} -t ./lambda-layers/python
+
+      - name: Zip the layer
+        run: |
+          cd lambda-layers
+          zip -r9 ${{ inputs.packageName }}-layer.zip python
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-southeast-2
+
+      - name: Publish Lambda layer
+        run: |
+          aws lambda publish-layer-version --layer-name $${{ inputs.layerName }} --zip-file fileb://lambda-layers/${{ inputs.packageName }}-layer.zip --compatible-runtimes python3.12
