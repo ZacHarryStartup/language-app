@@ -1,22 +1,30 @@
-from flask import Flask, request, jsonify
+import json
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
-# Initialize Cognito client-
-cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')  # Replace 'your-region' with your AWS region
-user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'  # Replace with your Cognito User Pool ID
-client_id = '5uer2o6e6atje9f29se6q4t029'  # Replace with your Cognito App Client ID
+# Initialize Cognito client
+cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')
+user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'
+client_id = '5uer2o6e6atje9f29se6q4t029'
 
-#@app.route('/confirm-forgot-password', methods=['POST'])
-def lambda_handler():
+def lambda_handler(event, context):
     try:
-        data = request.json
+        # Extract the JSON payload from the Lambda event
+        data = json.loads(event['body'])
+
         response = cognito_client.confirm_forgot_password(
             ClientId=client_id,
             Username=data['username'],
             ConfirmationCode=data['confirmation_code'],
             Password=data['password']
         )
-        return jsonify(response), 200
+        
+        return {
+            'statusCode': 200,
+            'body': json.dumps(response)
+        }
     except ClientError as e:
-        return jsonify(error=str(e)), 400
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'error': str(e)})
+        }
