@@ -30,10 +30,10 @@ def lambda_handler(event, context):
             audio_file.write(audio_data)
 
         # Transcribe the audio using OpenAI Whisper
-        openai.api_key = openai_api_key  # Use API key from environment variable
-        with open(audio_file_path, 'rb') as audio_file:
-            transcript = openai.Audio.transcribe("whisper-1", audio_file)
-
+        # openai.api_key = openai_api_key  # Use API key from environment variable
+        # with open(audio_file_path, 'rb') as audio_file:
+        #     transcript = openai.Audio.transcribe("whisper-1", audio_file)
+        transcript = {'text': "Hello"}
         # Return the transcript
         return {
             'statusCode': 200,
