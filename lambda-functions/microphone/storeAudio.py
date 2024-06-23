@@ -32,14 +32,16 @@ def lambda_handler(event, context):
             audio_file.write(event['body'])
             print(f"Audio file written to: {audio_file_path}")
 
-        client = OpenAI(api_key=openai_api_key)
-        with open(audio_file_path, 'rb') as audio_file:
-            transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+        # client = OpenAI(api_key=openai_api_key)
+        # with open(audio_file_path, 'rb') as audio_file:
+        #     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
 
+        with open(audio_file_path, "rb") as file:
+            print(len(file.read()))
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcript.text})
+            'body': json.dumps({'transcript': "transcript.text"})
         }
 
     except Exception as e:
