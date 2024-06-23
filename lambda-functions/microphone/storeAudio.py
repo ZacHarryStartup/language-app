@@ -21,7 +21,7 @@ def lambda_handler(event, context):
             }
 
         audio_file_path = '/tmp/audio.m4a'
-        with open(audio_file_path, 'wb') as audio_file:
+        with open(audio_file_path, 'w') as audio_file:
             audio_file.write(event['body'])
 
         # Call OpenAI Whisper with the file-like object
