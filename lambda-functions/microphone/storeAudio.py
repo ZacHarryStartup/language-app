@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         if 'body' in event:
             # Decode the base64-encoded audio data
             audio_data = base64.b64decode(event['body'])
-            print(audio_data, event['body'])
+            print(event['body'])
         else:
             return {
                 'statusCode': 400,
@@ -25,7 +25,7 @@ def lambda_handler(event, context):
             }
 
         # Save the audio data to a file in the /tmp directory
-        audio_file_path = '/tmp/audio.m4a'
+        audio_file_path = '/tmp/audio.mp3'
         with open(audio_file_path, 'wb') as audio_file:
             audio_file.write(audio_data)
 
