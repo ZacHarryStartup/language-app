@@ -7,7 +7,7 @@ from datetime import datetime
 def lambda_handler(event, context):
     try:
         # Retrieve environment variables
-        s3_bucket_name = os.getenv('S3_BUCKET_NAME')
+        s3_bucket_name = os.getenv('testBucket')
         if not s3_bucket_name:
             return {
                 'statusCode': 500,
