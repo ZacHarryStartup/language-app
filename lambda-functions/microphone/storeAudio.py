@@ -1,4 +1,3 @@
-import base64
 import json
 import os
 import openai
@@ -14,25 +13,34 @@ def lambda_handler(event, context):
             }
 
         # Check if the request contains the raw binary body
-        if 'body' not in event:
+        if 'body' in event:
+            # event['body'] is a string representation of binary data
+            audio_data = event['body'].encode('latin1')  # Convert to bytes
+            print(f"Received audio data of length: {len(audio_data)} bytes")
+        else:
             return {
                 'statusCode': 400,
                 'body': json.dumps('No audio file found in request')
             }
 
+        # Define the path to save the audio file
         audio_file_path = '/tmp/audio.m4a'
-        with open(audio_file_path, 'w') as audio_file:
-            audio_file.write(event['body'])
+        
+        # Write the binary data directly to the .m4a file
+        with open(audio_file_path, 'wb') as audio_file:
+            audio_file.write(audio_data)
+            print(f"Audio file written to: {audio_file_path}")
 
-            # Call OpenAI Whisper with the file-like object
-            openai.api_key = openai_api_key
+        # Transcribe the audio using OpenAI Whisper
+        openai.api_key = openai_api_key  # Use API key from environment variable
+        with open(audio_file_path, 'rb') as audio_file:
             transcript = openai.Audio.transcribe("whisper-1", audio_file)
 
-            # Return the transcript
-            return {
-                'statusCode': 200,
-                'body': json.dumps({'transcript': transcript['text']})
-            }
+        # Return the transcript
+        return {
+            'statusCode': 200,
+            'body': json.dumps({'transcript': transcript['text']})
+        }
 
     except Exception as e:
         # Log the error for debugging
