@@ -50,7 +50,7 @@ jobs:
         run: |
           python3 -m venv venv
           source venv/bin/activate
-          pip install ${{ inputs.packageName }} --platform manylinux2014_x86_64 -t ./lambda-layers/python
+          pip install ${{ inputs.packageName }} --platform manylinux2014_x86_64 -t ./lambda-layers/python --only-binary=:all:
 
       - name: Zip the layer
         run: |
