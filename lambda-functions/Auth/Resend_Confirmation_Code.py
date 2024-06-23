@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+import json
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
