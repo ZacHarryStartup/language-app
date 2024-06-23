@@ -75,7 +75,18 @@ jobs:
           # Parse JSON array of function names
           FUNCTION_NAMES=$(echo '${{ inputs.lambdaFunctions }}' | jq -r '.[]')
           for function_name in $FUNCTION_NAMES; do
-            echo "Attaching layer to $function_name"
-            echo "Attaching layers to $function_name: ${{ env.LAYER_VERSION_ARN }}"
-            aws lambda update-function-configuration --function-name $function_name --layers ${{ env.LAYER_VERSION_ARN }}
+          #   echo "Attaching layer to $function_name"
+          #   echo "Attaching layers to $function_name: ${{ env.LAYER_VERSION_ARN }}"
+          #   aws lambda update-function-configuration --function-name $function_name --layers ${{ env.LAYER_VERSION_ARN }}
+          # done
+            existing_layers=$(aws lambda get-function-configuration --function-name $function_name --query 'Layers[].Arn' --output text)
+              if [ -z "$existing_layers" ]; then
+                updated_layers="${LAYER_VERSION_ARN}"
+              else
+                updated_layers="${existing_layers} ${LAYER_VERSION_ARN}"
+              fi
+              # Remove potential duplicates
+              unique_layers=$(echo $updated_layers | tr ' ' '\n' | sort -u | tr '\n' ' ')
+              echo "Updating $function_name with layers: $unique_layers"
+              aws lambda update-function-configuration --function-name $function_name --layers $unique_layers
           done
