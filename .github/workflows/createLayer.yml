@@ -43,6 +43,7 @@ jobs:
           aws-region: ap-southeast-2
       - name: Install dependencies
         run: |
+          pip install --upgrade pip 
           python3 -m venv venv
           source venv/bin/activate
           pip install $${{ inputs.packageName }} -t ./lambda-layers/python
