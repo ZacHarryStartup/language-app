@@ -56,10 +56,8 @@ def compareStrings(goal_sentence, attempt_sentence):
 
 def lambda_handler(event, context):
     try:
-
         # Retrieve the OpenAI API key from environment variables
-        print(event)
-        print(len(event['payload']['audioData']))
+        print(event['body']['goalSentence'])
         openai_api_key = os.getenv('OPENAI_API_KEY')
         if not openai_api_key:
             return {
@@ -70,7 +68,7 @@ def lambda_handler(event, context):
         # Check if the request contains the base64-encoded .m4a body
         if 'body' in event:
             # Decode the base64-encoded .m4a data
-            audio_data = base64.b64decode(event['payload']['audioData'])
+            audio_data = base64.b64decode(event['body']['audioData'])
             print(f"Received base64 encoded audio data of length: {len(audio_data)} bytes")
         else:
             return {
@@ -93,7 +91,7 @@ def lambda_handler(event, context):
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(event['payload']['goalSentence'])})
+            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(event['body']['goalSentence'])})
         }
 
     except Exception as e:
