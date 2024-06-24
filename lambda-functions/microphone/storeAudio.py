@@ -70,7 +70,7 @@ def lambda_handler(event, context):
         # Check if the request contains the base64-encoded .m4a body
         if 'body' in event:
             # Decode the base64-encoded .m4a data
-            audio_data = base64.b64decode(event['body']['audioData'])
+            audio_data = base64.b64decode(event['payload']['audioData'])
             print(f"Received base64 encoded audio data of length: {len(audio_data)} bytes")
         else:
             return {
@@ -93,7 +93,7 @@ def lambda_handler(event, context):
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(event['body']['goalSentence'])})
+            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(event['payload']['goalSentence'])})
         }
 
     except Exception as e:
