@@ -58,7 +58,7 @@ def lambda_handler(event, context):
     try:
 
         # Retrieve the OpenAI API key from environment variables
-        print(len(event['payload']))
+        print(event)
         print(len(event['payload']['audioData']))
         openai_api_key = os.getenv('OPENAI_API_KEY')
         if not openai_api_key:
