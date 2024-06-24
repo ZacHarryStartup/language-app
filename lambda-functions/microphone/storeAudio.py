@@ -92,7 +92,7 @@ def lambda_handler(event, context):
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(body['goalSentence'])})
+            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(body['goalSentence'], transcript.text)})
         }
 
     except Exception as e:
