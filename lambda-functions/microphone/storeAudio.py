@@ -89,10 +89,12 @@ def lambda_handler(event, context):
         with open(audio_file_path, 'rb') as audio_file:
             transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
 
+        compareString = compareStrings(body['goalSentence'], transcript.text)
+        print(compareString, transcript.text)
         # Return the transcript
         return {
             'statusCode': 200,
-            'body': json.dumps({'transcript': transcript.text, 'compareString': compareStrings(body['goalSentence'], transcript.text)})
+            'body': json.dumps({'transcript': transcript.text, 'compareString': compareString})
         }
 
     except Exception as e:
