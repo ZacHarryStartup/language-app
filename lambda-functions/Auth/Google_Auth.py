@@ -5,7 +5,7 @@ import boto3
 import requests as http_requests
 
 # Constants (replace with your values)
-CLIENT_ID = '970665302383-v2fp9sap9o0ql68flg0eubl9ee9oqsgb.apps.googleusercontent.com' # or is it frontend/ios client_id? 970665302383-c2oktt71mje4r4ov9u04589uk77qtejp.apps.googleusercontent.com
+CLIENT_ID = '970665302383-v2fp9sap9o0ql68flg0eubl9ee9oqsgb.apps.googleusercontent.com'
 COGNITO_USER_POOL_ID = 'ap-southeast-2_CGcEJ2Fcb'
 LOGIN_URL = 'https://01ue1t7qdf.execute-api.ap-southeast-2.amazonaws.com/Test/login'
 REGISTER_URL = 'https://01ue1t7qdf.execute-api.ap-southeast-2.amazonaws.com/register'
