@@ -8,7 +8,7 @@ import requests as http_requests
 CLIENT_ID = '970665302383-v2fp9sap9o0ql68flg0eubl9ee9oqsgb.apps.googleusercontent.com'
 COGNITO_USER_POOL_ID = 'ap-southeast-2_CGcEJ2Fcb'
 LOGIN_URL = 'https://01ue1t7qdf.execute-api.ap-southeast-2.amazonaws.com/Test/login'
-REGISTER_URL = 'https://01ue1t7qdf.execute-api.ap-southeast-2.amazonaws.com/register'
+REGISTER_URL = 'https://01ue1t7qdf.execute-api.ap-southeast-2.amazonaws.com/Test/register'
 
 # Initialize Cognito client
 cognito_client = boto3.client('cognito-idp')
