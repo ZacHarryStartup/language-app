@@ -5,6 +5,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 import random
 import string
+import requests as http_requests
 
 # Constants (replace with your values)
 CLIENT_ID = '970665302383-v2fp9sap9o0ql68flg0eubl9ee9oqsgb.apps.googleusercontent.com'
