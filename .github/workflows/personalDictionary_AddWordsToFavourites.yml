@@ -1,0 +1,38 @@
+name: Update AddWordsToFavourites
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      -  lambda-functions/personalDictionary/AddWordsToFavourites.py
+env:
+  functionName: AddWordsToFavourites
+  folderName: personalDictionary
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ap-southeast-2
+jobs:
+  updateFunction:
+    runs-on: ubuntu-latest
+    environment: language-app
+    steps:
+      - name: checkout_repo
+        uses: actions/checkout@v3
+      - name: test secrets
+        run: |
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }}
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+      - name: "Zip function"
+        run: |
+          cd "lambda-functions/${{ env.folderName }}" 
+          zip code.zip ${{ env.functionName }}.py 
+      - name: "Updated ${{ env.functionName }}"
+        run: |
+          cd "lambda-functions/${{ env.folderName }}" 
+          aws lambda update-function-code --function-name ${{ env.folderName }}_${{ env.functionName }} --zip-file fileb://code.zip
