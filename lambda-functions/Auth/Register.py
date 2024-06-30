@@ -2,7 +2,7 @@ import json
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
-# Initialize Cognito client-
+# Initialize Cognito client
 cognito_client = boto3.client('cognito-idp', region_name='ap-southeast-2')
 user_pool_id = 'ap-southeast-2_CGcEJ2Fcb'
 client_id = '5uer2o6e6atje9f29se6q4t029'
@@ -18,6 +18,7 @@ def lambda_handler(event, context):
             Password=data['password'],
             UserAttributes=[
                 {'Name': 'email', 'Value': data['email']},
+                {'Name': 'profile', 'Value': data['profile']},
             ]
         )
         return {
