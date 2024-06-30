@@ -24,7 +24,7 @@ def lambda_handler(event, context):
                 if attribute['Name'] == 'profile' and attribute['Value'] == data['profile']:
                     return {
                         'statusCode': 400,
-                        'body': json.dumps({'error': 'email already in use'})
+                        'body': json.dumps({'error': 'Looks like that email is already in use.'})
                     }
 
         # Check if username is already in use
@@ -37,7 +37,7 @@ def lambda_handler(event, context):
         if existing_users['Users']:
             return {
                 'statusCode': 400,
-                'body': json.dumps({'error': 'username already in use'})
+                'body': json.dumps({'error': 'Looks like that username is taken.'})
             }
 
         # Create the new user
